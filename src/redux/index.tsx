@@ -9,7 +9,8 @@ import sagas from "./sagas"
 
 const persistConfig = {
     key: 'root',
-    storage
+    storage,
+    whitelist: []
 },
     sagaMiddleware = createSagaMiddleware(),
     persistedReducer = persistReducer(persistConfig, reducers),

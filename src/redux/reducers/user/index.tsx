@@ -4,6 +4,7 @@ export const GET_USERS: string = "USER:GET_USERS"
 export const GET_USERS_SAGA: string = "USER:GET_USERS_SAGA"
 
 export const UPDATE_PAGINATION: string = "USER:UPDATE_PAGINATION"
+export const UPDATE_PAGINATION_SAGA: string = "USER:UPDATE_PAGINATION_SAGA"
 
 const initialState: ReducerUserTypes = {
     data: [],
@@ -16,7 +17,7 @@ const initialState: ReducerUserTypes = {
 const reducer = (state: ReducerUserTypes = initialState, action: IAction) => {
     switch (action.type) {
         case GET_USERS_SAGA:
-            return { ...state, data: action.data }
+            return { ...state, data: action.data, pagination: { ...state.pagination, total: action.total } }
         case UPDATE_PAGINATION:
             return { ...state, pagination: action.data }
         default:

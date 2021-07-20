@@ -7,10 +7,11 @@ import { Pagination } from "src/types"
 function* getUsersSaga() {
     try {
         const { user: { pagination } } = yield select()
-        const data: UserTypes[] = yield call(getUsersAPI, pagination)
+        const data: { data: UserTypes[], total: number } = yield call(getUsersAPI, pagination)
         yield put({
             type: GET_USERS_SAGA,
-            data
+            data: data.data,
+            total: data.total
         })
     } catch (err) {
         console.log(err)

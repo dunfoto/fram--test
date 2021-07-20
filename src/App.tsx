@@ -1,21 +1,49 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { GET_USERS } from 'src/redux/reducers/user';
+import React from 'react'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+} from "react-router-dom"
+import {
+    AppBar,
+    Box,
+    Toolbar,
+    Button
+} from '@material-ui/core'
 
-function App(props: any) {
-    const { dispatch } = props
+import { AppTypes } from "src/types"
 
-    useEffect(() => {
-        dispatch({
-            type: GET_USERS
-        })
-    }, [dispatch])
+// import Increment from "src/containers/Increment"
+// import Dashboard from "src/containers/Dashboard"
+import { RoutesTypes } from "src/types"
+import routes from "./routes"
 
+const App = React.memo((props: AppTypes) => {
     return (
-        <div className="App">
-           Dung
-        </div>
-    );
-}
+        <Router>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar
+                    position="fixed"
+                >
+                    <Toolbar>
+                        {routes.map((route: RoutesTypes) => (
+                            <Button key={route.pathName} component={Link} to={route.pathName} color="inherit">{route.name}</Button>
+                        ))}
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <div className="margin-top-appbar padding-bottom">
+                <Switch>
+                    {routes.map((route: RoutesTypes) => (
+                        <Route key={route.pathName} path={route.pathName} exact component={route.component} />
+                    ))}
+                    <Redirect to="/dashboard" />
+                </Switch>
+            </div>
+        </Router >
+    )
+})
 
-export default connect()(App);
+export default App
