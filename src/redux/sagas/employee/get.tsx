@@ -1,15 +1,15 @@
 import axios from "src/utils/axios"
 import { takeLatest, put, select, call } from "redux-saga/effects"
-import { GET_USERS, GET_USERS_SAGA } from "src/redux/reducers/user"
-import { UserTypes } from "src/redux/types"
+import { GET_EMPLOYEE, GET_EMPLOYEE_SAGA } from "src/redux/reducers/employee"
+import { EmployeeTypes } from "src/redux/types"
 import { Pagination } from "src/types"
 
 function* getUsersSaga() {
     try {
-        const { user: { pagination } } = yield select(),
-            data: { data: UserTypes[], total: number } = yield call(getUsersAPI, pagination)
+        const { employee: { pagination } } = yield select(),
+            data: { data: EmployeeTypes[], total: number } = yield call(getUsersAPI, pagination)
         yield put({
-            type: GET_USERS_SAGA,
+            type: GET_EMPLOYEE_SAGA,
             data: data.data,
             total: data.total
         })
@@ -18,7 +18,7 @@ function* getUsersSaga() {
     }
 }
 function* getUsers() {
-    yield takeLatest(GET_USERS, getUsersSaga)
+    yield takeLatest(GET_EMPLOYEE, getUsersSaga)
 }
 
 export default getUsers

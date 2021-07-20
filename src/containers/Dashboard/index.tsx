@@ -4,67 +4,51 @@ import { DashboardTypes } from "src/types"
 import { Reducer } from "src/redux/types"
 import { useEffect } from "react"
 import {
-    GET_USERS,
+    GET_EMPLOYEE,
     UPDATE_PAGINATION
-} from "src/redux/reducers/user"
+} from "src/redux/reducers/employee"
 import {
     DataGrid,
-    GridCellParams,
-    GridCellValue,
-    GridValueGetterParams
 } from '@material-ui/data-grid'
 import {
-    Avatar,
     Pagination,
     Select,
     MenuItem,
     Grid,
-    Container
+    Container,
+    Button,
+    Box,
+    Modal,
+    Typography,
+    TextField
 } from "@material-ui/core"
-import moment from "moment"
-
-const columns = [
-    {
-        field: 'avatar',
-        headerName: 'Avatar',
-        width: 100,
-        type: "image",
-        renderCell: (params: GridCellParams) => <Avatar alt="demo" src={params.row.avatar} />
-    },
-    {
-        field: 'id',
-        headerName: 'ID',
-        width: 100
-    },
-    {
-        field: 'name',
-        headerName: 'Name',
-        width: 150,
-        editable: true,
-    },
-    {
-        field: 'position',
-        headerName: 'Position',
-        width: 250,
-        editable: true,
-    },
-    {
-        field: 'createdAt',
-        headerName: 'Created At',
-        width: 150,
-        valueGetter: (params: GridValueGetterParams): GridCellValue => moment(params.row.createdAt).format("YYYY-MM-DD HH:mm")
-    }
-]
+import {
+    Add
+} from "@material-ui/icons"
+import columns from "src/common/DataGrid"
+import style from "./styles"
+import { useForm } from "react-hook-form"
+import axios from "src/utils/axios"
 
 const DashboardComponent = React.memo((props: DashboardTypes) => {
-    const { dispatch, users, pagination } = props,
-        { limit, page } = pagination
+    const { dispatch, employees, pagination } = props,
+        { limit, page } = pagination,
+        [open, setOpen] = React.useState(false),
+        { handleSubmit, register, formState: { errors } } = useForm()
 
-    useEffect(() => {
+    const handleOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    const getUsers = () => {
         dispatch({
-            type: GET_USERS
+            type: GET_EMPLOYEE
         })
-    }, [dispatch, limit, page])
+    }
 
     const onPageChange = (_: React.ChangeEvent<unknown>, p: number) => {
         dispatch({
@@ -86,19 +70,100 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
         })
     }
 
+    const onSubmit = async (data: any) => {
+        try {
+            await axios.post('/users', data)
+            getUsers()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        dispatch({
+            type: GET_EMPLOYEE
+        })
+    }, [dispatch, limit, page])
+
     return (
         <Container>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Create new employee
+                    </Typography>
+                    <Typography component="div" id="modal-modal-description" sx={{ mt: 2 }}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <TextField
+                                defaultValue=""
+                                error={Boolean(errors["name"])}
+                                fullWidth
+                                margin="dense"
+                                id="name"
+                                label="Name"
+                                variant="outlined"
+                                {...register("name", {
+                                    required: true,
+                                    minLength: 1
+                                })}
+                            />
+
+                            <TextField
+                                defaultValue=""
+                                error={Boolean(errors["email"])}
+                                type="email"
+                                fullWidth
+                                margin="dense"
+                                id="email"
+                                label="email"
+                                variant="outlined"
+                                {...register("email", {
+                                    required: true,
+                                    minLength: 1,
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: "invalid email address"
+                                    }
+                                })}
+                            />
+
+                            <TextField
+                                defaultValue=""
+                                error={Boolean(errors["position"])}
+                                fullWidth
+                                margin="dense"
+                                id="position"
+                                label="position"
+                                variant="outlined"
+                                {...register("position", {
+                                    required: true,
+                                    minLength: 1
+                                })}
+                            />
+
+                            <Button type="submit">Submit</Button>
+                        </form>
+                    </Typography>
+                </Box>
+            </Modal>
             <div
                 style={{
-                    height: 58 + 52 * pagination.limit,
+                    height: 82 + 52 * pagination.limit,
                     width: 'auto',
-                    content: "center"
+                    content: "center",
+                    marginBottom: 10
                 }}
             >
+                <Typography component="h2"><b>EMPLOYEES</b></Typography>
                 <DataGrid
-                    rows={users}
+                    rows={employees}
                     columns={columns}
-                    loading={users.length === 0}
+                    loading={employees.length === 0}
                     checkboxSelection
                     disableSelectionOnClick
                     pageSize={pagination.limit}
@@ -107,37 +172,48 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
                     autoHeight={true}
                 />
             </div>
-            <Grid container item justifyContent="flex-end" spacing={0}>
-                <Select
-                    id="pageSize"
-                    variant="standard"
-                    autoWidth={true}
-                    margin="none"
-                    value={Number(pagination.limit)}
-                    onChange={handleChange}
-                >
-                    <MenuItem value={10}>10</MenuItem>
-                    <MenuItem value={20}>20</MenuItem>
-                    <MenuItem value={30}>30</MenuItem>
-                    <MenuItem value={pagination.total}>All</MenuItem>
-                </Select>
-                <Pagination
-                    page={pagination.page}
-                    onChange={onPageChange}
-                    count={pagination.total === pagination.limit ? 1 : parseInt(String(pagination.total / pagination.limit)) + 1}
-                    shape="rounded"
-                    classes={{
-                        ul: "justify-end"
-                    }}
-                />
+            <Grid container justifyContent="space-between" spacing={0}>
+                <Grid item xs={4}>
+                    <Button
+                        variant="outlined"
+                        onClick={handleOpen}
+                    >
+                        <Add color="primary" />
+                    </Button>
+                </Grid>
+                <Grid container justifyContent="flex-end" item xs={8} spacing={0}>
+                    <Select
+                        id="pageSize"
+                        variant="standard"
+                        autoWidth={true}
+                        margin="none"
+                        value={Number(pagination.limit)}
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={5}>5</MenuItem>
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                        <MenuItem value={30}>30</MenuItem>
+                        <MenuItem value={pagination.total}>All</MenuItem>
+                    </Select>
+                    <Pagination
+                        page={pagination.page}
+                        onChange={onPageChange}
+                        count={pagination.total === pagination.limit ? 1 : parseInt(String(pagination.total / pagination.limit)) + 1}
+                        shape="rounded"
+                        classes={{
+                            ul: "justify-end"
+                        }}
+                    />
+                </Grid>
             </Grid>
         </Container>
     )
 })
 
 const mapStateToProps = (state: Reducer) => ({
-    users: state.user.data,
-    pagination: state.user.pagination
+    employees: state.employee.data,
+    pagination: state.employee.pagination
 })
 // @ts-ignore
 export default connect(mapStateToProps)(DashboardComponent)

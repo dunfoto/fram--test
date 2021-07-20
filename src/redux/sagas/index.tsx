@@ -1,7 +1,7 @@
 import { all } from "redux-saga/effects"
 
-import getUsers from "./user/get"
-import updatePagination from "./user/pagination"
+import getEmployee from "./employee/get"
+import updatePagination from "./employee/pagination"
 
 import increment from "./increment/increment"
 import reset from "./increment/reset"
@@ -9,7 +9,7 @@ import decrement from "./increment/decrement"
 
 function* sagas() {
     yield all([
-        getUsers(),
+        getEmployee(),
         updatePagination(),
         increment(),
         reset(),

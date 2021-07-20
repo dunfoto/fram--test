@@ -4,7 +4,7 @@ import {
     Grid,
     Button
 } from "@material-ui/core"
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import { connect } from "react-redux"
 import { DECREMENT, DECREMENT_SAGA, INCREMENT, INCREMENT_SAGA, RESET, RESET_SAGA } from "src/redux/reducers/increment"
 import { Reducer } from "src/redux/types"
@@ -49,17 +49,17 @@ const IncrementComponent = React.memo((props: IncrementTypes) => {
         })
     }
 
-    const onIncrementState = (_: React.MouseEvent<HTMLElement>) => {
+    const onIncrementState = useCallback((_: React.MouseEvent<HTMLElement>) => {
         setDataState((prevState: number) => prevState + 1)
-    }
+    }, [])
 
-    const onResetState = (_: React.MouseEvent<HTMLElement>) => {
+    const onResetState = useCallback((_: React.MouseEvent<HTMLElement>) => {
         setDataState(initialData)
-    }
+    }, [])
 
-    const onDecrementState = (_: React.MouseEvent<HTMLElement>) => {
+    const onDecrementState = useCallback((_: React.MouseEvent<HTMLElement>) => {
         setDataState((prevState: number) => prevState - 1)
-    }
+    }, [])
 
     return (
         <Container>

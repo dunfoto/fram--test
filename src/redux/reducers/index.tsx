@@ -1,9 +1,9 @@
 import { combineReducers } from "redux"
 
-import user from "./user"
+import employee from "./employee"
 import increment from "./increment"
 
 export default combineReducers({
-    user,
+    employee,
     increment
 })
