@@ -3,7 +3,7 @@ import getUsers from "./user/get"
 
 function* sagas() {
     yield all([
-        getUsers
+        getUsers()
     ])
 }
 

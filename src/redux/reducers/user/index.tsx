@@ -8,8 +8,8 @@ export const UPDATE_PAGINATION: string = "USER:UPDATE_PAGINATION"
 const initialState: ReducerUserTypes = {
     data: [],
     pagination: {
-        page: 0,
-        limit: 0,
+        page: 1,
+        limit: 10,
         total: 0
     }
 }

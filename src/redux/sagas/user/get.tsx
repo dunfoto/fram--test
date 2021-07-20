@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "src/utils/axios"
 import { takeLatest, put, select, call } from "redux-saga/effects"
 import { GET_USERS, GET_USERS_SAGA } from "src/redux/reducers/user"
 import { UserTypes } from "src/redux/types"
@@ -25,7 +25,6 @@ export default getUsers
 const getUsersAPI = async (pagination: Pagination) => {
     try {
         const res = await axios.get(`/users?limit=${pagination.limit}&page=${pagination.page}`)
-        console.log(res)
         return res.data
     } catch (err) {
         console.log(err)
