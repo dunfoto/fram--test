@@ -149,7 +149,7 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
 								})}
 							/>
 
-							<Button type="submit">Submit</Button>
+							<Button variant="outlined" type="submit">Submit</Button>
 						</form>
 					</Typography>
 				</Box>
