@@ -13,16 +13,16 @@ const initialState: ReducerUserTypes = {
         limit: 10,
         total: 0
     }
-}
-const reducer = (state: ReducerUserTypes = initialState, action: IAction) => {
-    switch (action.type) {
-        case GET_USERS_SAGA:
-            return { ...state, data: action.data, pagination: { ...state.pagination, total: action.total } }
-        case UPDATE_PAGINATION:
-            return { ...state, pagination: action.data }
-        default:
-            return state
+},
+    reducer = (state: ReducerUserTypes = initialState, action: IAction) => {
+        switch (action.type) {
+            case GET_USERS_SAGA:
+                return { ...state, data: action.data, pagination: { ...state.pagination, total: action.total } }
+            case UPDATE_PAGINATION:
+                return { ...state, pagination: action.data }
+            default:
+                return state
+        }
     }
-}
 
 export default reducer
