@@ -1,9 +1,9 @@
-import { put, takeEvery } from "redux-saga/effects"
-import { RESET, RESET_SAGA } from "src/redux/reducers/increment"
+import { put, takeEvery } from 'redux-saga/effects'
+import { RESET, RESET_SAGA } from 'src/redux/reducers/increment'
 
 function* resetSaga() {
     yield put({
-        type: RESET
+        type: RESET,
     })
 }
 

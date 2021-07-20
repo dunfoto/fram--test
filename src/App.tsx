@@ -1,35 +1,20 @@
-import React from 'react'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect
-} from "react-router-dom"
-import {
-    AppBar,
-    Box,
-    Toolbar,
-    Button
-} from '@material-ui/core'
+import React, { memo } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom'
+import { AppBar, Box, Toolbar, Button } from '@material-ui/core'
 
-import { AppTypes } from "src/types"
+import { RoutesTypes } from 'src/types'
+import routes from './routes'
 
-// import Increment from "src/containers/Increment"
-// import Dashboard from "src/containers/Dashboard"
-import { RoutesTypes } from "src/types"
-import routes from "./routes"
-
-const App = React.memo((props: AppTypes) => {
+const App = memo(() => {
     return (
         <Router>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar
-                    position="fixed"
-                >
+                <AppBar position="fixed">
                     <Toolbar>
                         {routes.map((route: RoutesTypes) => (
-                            <Button key={route.pathName} component={Link} to={route.pathName} color="inherit">{route.name}</Button>
+                            <Button key={route.pathName} component={Link} to={route.pathName} color="inherit">
+                                {route.name}
+                            </Button>
                         ))}
                     </Toolbar>
                 </AppBar>
@@ -42,8 +27,10 @@ const App = React.memo((props: AppTypes) => {
                     <Redirect to="/dashboard" />
                 </Switch>
             </div>
-        </Router >
+        </Router>
     )
 })
+
+App.displayName = 'App'
 
 export default App

@@ -1,14 +1,14 @@
-import { ReducerEmployeeTypes } from "./employee"
-import { ReducerIncrementTypes } from "./increment"
+import { ReducerEmployeeTypes } from './employee'
+import { ReducerIncrementTypes } from './increment'
 
-export * from "./employee"
-export * from "./increment"
+export * from './employee'
+export * from './increment'
 export interface IAction {
-    type: string,
+    type: string
     [key: string]: any
 }
 
 export interface Reducer {
-    employee: ReducerEmployeeTypes,
+    employee: ReducerEmployeeTypes
     increment: ReducerIncrementTypes
 }

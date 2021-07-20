@@ -1,15 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { DashboardTypes } from "src/types"
-import { Reducer } from "src/redux/types"
-import { useEffect } from "react"
-import {
-    GET_EMPLOYEE,
-    UPDATE_PAGINATION
-} from "src/redux/reducers/employee"
-import {
-    DataGrid,
-} from '@material-ui/data-grid'
+import React from 'react'
+import { connect } from 'react-redux'
+import { DashboardTypes } from 'src/types'
+import { Reducer } from 'src/redux/types'
+import { useEffect } from 'react'
+import { GET_EMPLOYEE, UPDATE_PAGINATION } from 'src/redux/reducers/employee'
+import { DataGrid } from '@material-ui/data-grid'
 import {
     Pagination,
     Select,
@@ -20,21 +15,23 @@ import {
     Box,
     Modal,
     Typography,
-    TextField
-} from "@material-ui/core"
-import {
-    Add
-} from "@material-ui/icons"
-import columns from "src/common/DataGrid"
-import style from "./styles"
-import { useForm } from "react-hook-form"
-import axios from "src/utils/axios"
+    TextField,
+} from '@material-ui/core'
+import { Add } from '@material-ui/icons'
+import columns from 'src/common/DataGrid'
+import style from './styles'
+import { useForm } from 'react-hook-form'
+import axios from 'src/utils/axios'
 
 const DashboardComponent = React.memo((props: DashboardTypes) => {
     const { dispatch, employees, pagination } = props,
         { limit, page } = pagination,
         [open, setOpen] = React.useState(false),
-        { handleSubmit, register, formState: { errors } } = useForm()
+        {
+            handleSubmit,
+            register,
+            formState: { errors },
+        } = useForm()
 
     const handleOpen = () => {
         setOpen(true)
@@ -46,7 +43,7 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
 
     const getUsers = () => {
         dispatch({
-            type: GET_EMPLOYEE
+            type: GET_EMPLOYEE,
         })
     }
 
@@ -55,8 +52,8 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
             type: UPDATE_PAGINATION,
             data: {
                 ...pagination,
-                page: p
-            }
+                page: p,
+            },
         })
     }
 
@@ -65,8 +62,8 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
             type: UPDATE_PAGINATION,
             data: {
                 ...pagination,
-                limit: e.target.value
-            }
+                limit: e.target.value,
+            },
         })
     }
 
@@ -81,7 +78,7 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
 
     useEffect(() => {
         dispatch({
-            type: GET_EMPLOYEE
+            type: GET_EMPLOYEE,
         })
     }, [dispatch, limit, page])
 
@@ -101,48 +98,48 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <TextField
                                 defaultValue=""
-                                error={Boolean(errors["name"])}
+                                error={Boolean(errors['name'])}
                                 fullWidth
                                 margin="dense"
                                 id="name"
                                 label="Name"
                                 variant="outlined"
-                                {...register("name", {
+                                {...register('name', {
                                     required: true,
-                                    minLength: 1
+                                    minLength: 1,
                                 })}
                             />
 
                             <TextField
                                 defaultValue=""
-                                error={Boolean(errors["email"])}
+                                error={Boolean(errors['email'])}
                                 type="email"
                                 fullWidth
                                 margin="dense"
                                 id="email"
                                 label="email"
                                 variant="outlined"
-                                {...register("email", {
+                                {...register('email', {
                                     required: true,
                                     minLength: 1,
                                     pattern: {
                                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                        message: "invalid email address"
-                                    }
+                                        message: 'invalid email address',
+                                    },
                                 })}
                             />
 
                             <TextField
                                 defaultValue=""
-                                error={Boolean(errors["position"])}
+                                error={Boolean(errors['position'])}
                                 fullWidth
                                 margin="dense"
                                 id="position"
                                 label="position"
                                 variant="outlined"
-                                {...register("position", {
+                                {...register('position', {
                                     required: true,
-                                    minLength: 1
+                                    minLength: 1,
                                 })}
                             />
 
@@ -155,11 +152,13 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
                 style={{
                     height: 82 + 52 * pagination.limit,
                     width: 'auto',
-                    content: "center",
-                    marginBottom: 10
+                    content: 'center',
+                    marginBottom: 10,
                 }}
             >
-                <Typography component="h2"><b>EMPLOYEES</b></Typography>
+                <Typography component="h2">
+                    <b>EMPLOYEES</b>
+                </Typography>
                 <DataGrid
                     rows={employees}
                     columns={columns}
@@ -174,10 +173,7 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
             </div>
             <Grid container justifyContent="space-between" spacing={0}>
                 <Grid item xs={4}>
-                    <Button
-                        variant="outlined"
-                        onClick={handleOpen}
-                    >
+                    <Button variant="outlined" onClick={handleOpen}>
                         <Add color="primary" />
                     </Button>
                 </Grid>
@@ -199,10 +195,14 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
                     <Pagination
                         page={pagination.page}
                         onChange={onPageChange}
-                        count={pagination.total === pagination.limit ? 1 : parseInt(String(pagination.total / pagination.limit)) + 1}
+                        count={
+                            pagination.total === pagination.limit
+                                ? 1
+                                : parseInt(String(pagination.total / pagination.limit)) + 1
+                        }
                         shape="rounded"
                         classes={{
-                            ul: "justify-end"
+                            ul: 'justify-end',
                         }}
                     />
                 </Grid>
@@ -211,9 +211,10 @@ const DashboardComponent = React.memo((props: DashboardTypes) => {
     )
 })
 
+DashboardComponent.displayName = 'Dashboard'
 const mapStateToProps = (state: Reducer) => ({
     employees: state.employee.data,
-    pagination: state.employee.pagination
+    pagination: state.employee.pagination,
 })
 // @ts-ignore
 export default connect(mapStateToProps)(DashboardComponent)

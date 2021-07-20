@@ -1,25 +1,19 @@
-import {
-    GridCellParams,
-    GridCellValue,
-    GridValueGetterParams
-} from '@material-ui/data-grid'
-import {
-    Avatar
-} from "@material-ui/core"
-import moment from "moment"
+import { GridCellParams, GridCellValue, GridValueGetterParams } from '@material-ui/data-grid'
+import { Avatar } from '@material-ui/core'
+import moment from 'moment'
 
 const columns = [
     {
         field: 'avatar',
         headerName: 'Avatar',
         width: 100,
-        type: "image",
-        renderCell: (params: GridCellParams) => <Avatar alt="demo" src={params.row.avatar} />
+        type: 'image',
+        renderCell: (params: GridCellParams) => <Avatar alt="demo" src={params.row.avatar} />,
     },
     {
         field: 'id',
         headerName: 'ID',
-        width: 100
+        width: 100,
     },
     {
         field: 'name',
@@ -43,8 +37,9 @@ const columns = [
         field: 'createdAt',
         headerName: 'Created At',
         width: 150,
-        valueGetter: (params: GridValueGetterParams): GridCellValue => moment(params.row.createdAt).format("YYYY-MM-DD HH:mm")
-    }
+        valueGetter: (params: GridValueGetterParams): GridCellValue =>
+            moment(params.row.createdAt).format('YYYY-MM-DD HH:mm'),
+    },
 ]
 
 export default columns

@@ -1,9 +1,9 @@
-import { put, takeEvery } from "redux-saga/effects"
-import { INCREMENT, INCREMENT_SAGA } from "src/redux/reducers/increment"
+import { put, takeEvery } from 'redux-saga/effects'
+import { INCREMENT, INCREMENT_SAGA } from 'src/redux/reducers/increment'
 
 function* incrementSaga() {
     yield put({
-        type: INCREMENT
+        type: INCREMENT,
     })
 }
 function* increment() {

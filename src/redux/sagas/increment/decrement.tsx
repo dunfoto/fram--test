@@ -1,9 +1,9 @@
-import { put, takeEvery } from "redux-saga/effects"
-import { DECREMENT, DECREMENT_SAGA } from "src/redux/reducers/increment"
+import { put, takeEvery } from 'redux-saga/effects'
+import { DECREMENT, DECREMENT_SAGA } from 'src/redux/reducers/increment'
 
 function* decrementSaga() {
     yield put({
-        type: DECREMENT
+        type: DECREMENT,
     })
 }
 

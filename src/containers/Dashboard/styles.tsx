@@ -1,4 +1,4 @@
-import { SxProps, Theme } from "@material-ui/system"
+import { SxProps, Theme } from '@material-ui/system'
 const styles: SxProps<Theme> = {
     position: 'absolute',
     top: '50%',

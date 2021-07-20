@@ -4,9 +4,9 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
-import { Provider } from "react-redux"
+import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { store, persistor } from "src/redux"
+import { store, persistor } from 'src/redux'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -16,7 +16,7 @@ ReactDOM.render(
             </PersistGate>
         </Provider>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById('root'),
 )
 
 // If you want to start measuring performance in your app, pass a function
